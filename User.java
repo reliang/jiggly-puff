@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class User {
-	String name; //username, case-sensitive, unique
+	String name; //username, case-sensitive, make unique??
 	int id;
 	int credit;
 	String email;
@@ -26,8 +26,12 @@ public class User {
 		return true;
 	}
 	
-	void deleteTask(int task) {
+	void deleteMyTask(int task) {
 		myTasks.remove((Integer) task);
+	}
+	
+	void deleteToDo(int task) {
+		toDo.remove((Integer) task);
 	}
 	
 	//confirm items from toDo
@@ -43,12 +47,13 @@ public class User {
 		t.ownerConfirm = true;
 		t.isConfirmed();
 	}
-	
+	//check to make sure task is available?
 	void takeTask(int task) {
 		Task t = Channel.taskList.get(task);
-		t.doer = this;
-		t.taken = true;
-		Channel.removeTask(task);
+		if (t != null) {
+			t.doer = this;
+			t.taken = true;
+			this.toDo.add(task);
+		}
 	}
 }
-
