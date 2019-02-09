@@ -1,37 +1,43 @@
 import java.util.ArrayList;
 
 public class User {
-	String name;
+	String name; //username, case-sensitive, unique
 	int id;
 	int credit;
 	String email;
-	ArrayList<Integer> myTasks;
-	ArrayList<Integer> toDo;
+	ArrayList<Integer> myTasks; //request to others
+	ArrayList<Integer> toDo; //requests we've taken
 	
 	public User(String name, int id, String email) {
 		this.name = name;
 		this.id = id;
 		this.email = email;
-		credit = 0;
+		credit = 2;
 		myTasks = new ArrayList<Integer>();
 		toDo = new ArrayList<Integer>();
 	}
 	
-	void addRequest(String request, int time) {
+	boolean addRequest(String request, int time) {
+		if (time > credit) {
+			return false;
+		}
 		int task = Channel.makeTask(this, request, time);
 		myTasks.add(task);
+		return true;
 	}
 	
 	void deleteTask(int task) {
 		myTasks.remove((Integer) task);
 	}
 	
+	//confirm items from toDo
 	void confirmIdid(int task) {
 		Task t = Channel.taskList.get(task);
-		t.userConfirm = true;
+		t.doerConfirm = true;
 		t.isConfirmed();
 	}
 	
+	//confirm items from myTasks
 	void confirmTheydid(int task) {
 		Task t = Channel.taskList.get(task);
 		t.ownerConfirm = true;
@@ -45,3 +51,4 @@ public class User {
 		Channel.removeTask(task);
 	}
 }
+
