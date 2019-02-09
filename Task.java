@@ -1,5 +1,3 @@
-package femmehack;
-
 public class Task {
     String name;
     int id;
@@ -10,7 +8,7 @@ public class Task {
     boolean ownerConfirm;
     boolean doerConfirm;
     
-    public Task(User owner,String request, int time, int id) {
+    public Task(User owner, String request, int time, int id) {
         this.id = id;
         this.owner = owner;
         this.time = time;
@@ -19,12 +17,13 @@ public class Task {
         doerConfirm = false;
     }
     
-    void isConfirmed(int id) {
+    void isConfirmed() {
         if (ownerConfirm && doerConfirm) {
             Channel.removeTask(id);
             owner.deleteTask(id);
             doer.deleteTask(id);
+            owner.credit -= time;
+            doer.credit += time;
         };
     }
-
 }
