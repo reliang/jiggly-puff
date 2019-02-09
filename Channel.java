@@ -18,6 +18,7 @@ public class Channel {
     			return null;
     		}
     	} else {
+    		
     		User curr = makeUser(name, email);
     		return curr;
     	}
@@ -31,9 +32,11 @@ public class Channel {
     }
     
     static int makeTask(User owner, String request, int time) {
-        Task task = new Task(owner, request, time, taskID++);
-        taskList.put(task.id, task);
-        return task.id;
+    	taskID++;
+    	int newid = taskID;
+        Task task = new Task(owner, request, time, newid);
+        taskList.put(newid, task);
+        return newid;
     }
     
     static void removeTask(int id) {
